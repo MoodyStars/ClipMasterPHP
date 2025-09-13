@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . '/lib.php';
-session_start();
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!csrf_check($_POST['_csrf'] ?? '')) $errors[] = "Invalid form submission.";
     $username = trim($_POST['username'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm'] ?? '';
 
-    if ($username === '' || $password === '' || $email === '') {
+    if ($username === '' || $email === '' || $password === '') {
         $errors[] = "All fields are required.";
     } elseif ($password !== $confirm) {
         $errors[] = "Passwords do not match.";
@@ -16,20 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Username already taken.";
     } else {
         if (add_user($username, $password, $email)) {
-            $_SESSION['user'] = ['username' => $username, 'email' => $email];
-            header('Location: index.php');
-            exit;
+            $u = find_user_by_username($username);
+            login_user_session($u);
+            header('Location: index.php'); exit;
         } else {
-            $errors[] = "Failed to create user.";
+            $errors[] = "Failed to create user (maybe username taken).";
         }
     }
 }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Sign Up - ClipMaster</title>
+  <meta charset="utf-8">
+  <title>Sign Up - <?php echo e($config['site_name']); ?></title>
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
@@ -37,16 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div id="container">
   <div id="main">
     <h2>Sign Up — it's Free</h2>
-    <?php if (!empty($errors)): ?>
-      <div class="error"><?php echo implode('<br>', array_map('htmlspecialchars', $errors)); ?></div>
+    <?php if ($errors): ?>
+      <div class="error"><?php echo implode('<br>', array_map('e', $errors)); ?></div>
     <?php endif; ?>
     <form action="signup.php" method="post">
+      <input type="hidden" name="_csrf" value="<?php echo e(csrf_token()); ?>">
       <table class="formtable">
-        <tr><td>Username:</td><td><input type="text" name="username" value="<?php echo htmlspecialchars($_POST['username'] ?? '') ?>" /></td></tr>
-        <tr><td>Email:</td><td><input type="text" name="email" value="<?php echo htmlspecialchars($_POST['email'] ?? '') ?>" /></td></tr>
-        <tr><td>Password:</td><td><input type="password" name="password" /></td></tr>
-        <tr><td>Confirm:</td><td><input type="password" name="confirm" /></td></tr>
-        <tr><td></td><td><input type="submit" value="Create Account" /></td></tr>
+        <tr><td>Username:</td><td><input type="text" name="username" value="<?php echo e($_POST['username'] ?? '') ?>"></td></tr>
+        <tr><td>Email:</td><td><input type="text" name="email" value="<?php echo e($_POST['email'] ?? '') ?>"></td></tr>
+        <tr><td>Password:</td><td><input type="password" name="password"></td></tr>
+        <tr><td>Confirm:</td><td><input type="password" name="confirm"></td></tr>
+        <tr><td></td><td><input type="submit" value="Create Account"></td></tr>
       </table>
     </form>
   </div>

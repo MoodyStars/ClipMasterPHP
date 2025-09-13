@@ -1,4 +1,4 @@
-/* ClipMaster — simple stylesheet with older-browser friendly rules */
+/* ClipMaster — updated stylesheet (backwards-compatible) */
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f6f6f6;
@@ -43,7 +43,15 @@ a:hover { text-decoration: underline; }
 .cats, .list { list-style: none; padding-left: 0; }
 .cats li { margin: 4px 0; }
 
+.searchform { margin-bottom: 12px; }
+.searchform input[type="text"] { width: 70%; padding: 6px; }
+.searchform input[type="submit"] { padding: 6px 10px; }
+
+.player { margin-bottom: 12px; background: #000; padding: 6px; text-align: center; }
+.comment { border-top: 1px dashed #ddd; padding: 6px 0; }
+
+/* Pagination */
+.pagination { padding: 8px 0; }
+
 /* Old IE6/7 support: use simple layout, avoid advanced selectors */
-* html #container { /* IE6 hack */
-  width: 960px;
-}
+* html #container { width: 960px; }
