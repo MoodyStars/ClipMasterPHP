@@ -1,4 +1,3 @@
-```markdown
 ClipMaster — 2025 Revival (updated project)
 ===========================================
 
