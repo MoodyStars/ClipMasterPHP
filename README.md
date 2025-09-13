@@ -1,4 +1,3 @@
-```markdown
 ClipMaster (2007 remake / 2025 revival) — simple PHP + CSS demo
 ==============================================================
 
