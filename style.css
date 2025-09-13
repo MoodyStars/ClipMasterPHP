@@ -1,0 +1,49 @@
+/* ClipMaster — simple stylesheet with older-browser friendly rules */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f6f6f6;
+  color: #222;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+a { color: #0077cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#topbar {
+  background: #222;
+  color: #fff;
+  padding: 8px 12px;
+  overflow: hidden;
+}
+#topbar .brand { float: left; font-weight: bold; font-size: 18px; }
+#topbar .brand a { color: #fff; }
+#topbar .nav { float: left; margin-left: 20px; }
+#topbar .nav a { color: #eee; margin-right: 8px; }
+#topbar .auth { float: right; }
+
+#container { width: 980px; margin: 16px auto; overflow: hidden; }
+#main { width: 690px; float: left; background: #fff; padding: 12px; border: 1px solid #ddd; }
+#sidebar { width: 250px; float: right; background: #fff; padding: 12px; border: 1px solid #ddd; }
+
+.tiles { overflow: hidden; }
+.tile { float: left; width: 210px; margin: 6px; border: 1px solid #eee; padding: 6px; background:#fafafa; }
+.tile img { width: 200px; height: 112px; background: #ccc; display:block; }
+.tile .meta { margin-top: 6px; }
+
+.formtable td { padding: 4px; vertical-align: top; }
+.formtable input[type="text"], .formtable textarea, .formtable select { width: 100%; }
+
+.error { background: #fdd; border: 1px solid #f99; padding: 6px; margin: 6px 0; }
+.small { font-size: 12px; color: #666; }
+.lead { font-weight: bold; margin-top: 12px; }
+
+#footer { clear: both; padding: 12px; text-align: center; color: #777; font-size: 12px; }
+.cats, .list { list-style: none; padding-left: 0; }
+.cats li { margin: 4px 0; }
+
+/* Old IE6/7 support: use simple layout, avoid advanced selectors */
+* html #container { /* IE6 hack */
+  width: 960px;
+}
